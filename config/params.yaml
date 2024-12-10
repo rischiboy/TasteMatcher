@@ -1,0 +1,37 @@
+# General parameters for the project
+seed: 42
+validation_size: 0.01 # Fraction of the data to be used for validation
+
+##### Preprocessing #####
+preprocessing:
+  height: 100 # Height of the input image after resizing
+  width: 160  # Width of the input image after resizing
+
+
+##### Model #####
+model:
+  encoder:
+    name: 'ResNet101' # Name of the encoder [ResNet101, ResNet152, InceptionV3]
+    include_top: False # Whether to include the fully connected layers at the top
+    weights: 'imagenet' # Weights to be used [None, 'imagenet']
+    input_shape: [100, 160, 3] # Input shape of the encoder (height, width, channels)
+    pooling: 'max' # Pooling type [None, 'avg', 'max']
+    trainable: False # Whether to train the encoder
+
+  fc_layers:
+    num_units: [512, 512] # Number of units in the fully connected layers
+    dropout: 0.25
+    activation: 'relu'
+    output_shape: 50 # Output shape of the embeddings
+
+  triplet_loss:
+    name: 'triplet_loss' # Name of the loss function
+    alpha: 0.2 # Margin for the triplet loss
+
+##### Training #####
+training:
+  batch_size: 256
+  epochs: 50
+  val_interval: 10 # Validation interval
+  optimizer: 'adam' # Optimizer to be used [adam, adagrad, rmsprop, sgd]
+  learning_rate: 0.001
